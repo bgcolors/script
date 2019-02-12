@@ -1,0 +1,30 @@
+#!/bin/bash
+#chkconfig: 2345 80 90
+#description:auto_run
+
+case "$1" in
+start)
+   ssserver -c /etc/shadowsocks.json -d start
+   ;;
+stop)
+   ssserver -c /etc/shadowsocks.json -d stop
+   ;;
+restart)
+   $0 stop
+   $0 start
+   ;;
+status)
+    count=`ps -ef |grep $1 |grep -v "grep" |wc -l`
+        #echo $count
+        if [ 0 == $count ]
+        then
+            echo "ss is running"
+        else
+            echo "ss is not running"
+        fi
+   ;;
+*)
+   echo "Usage: $0 {start|stop|status|restart}"
+esac
+
+exit 0
